@@ -4,16 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <GridView
+    <com.ps.sleek.view.SleekGridView
         android:id="@+id/all_apps"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:alwaysDrawnWithCache="true"
         android:drawSelectorOnTop="false"
-        android:numColumns="5"
         android:persistentDrawingCache="animation|scrolling"
         android:scrollbars="none"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="0dp"
+        android:padding="5dp"
         android:stretchMode="columnWidth"
         android:visibility="invisible" />
     

@@ -12,6 +12,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +21,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ps.sleek.manager.ApplicationManager;
 import com.ps.sleek.model.Application;
+import com.ps.sleek.utils.DimensionUtils;
+import com.ps.sleek.view.SleekGridView;
 import com.ps.sleek.R;
 
 public class ApplicationAdapter extends ArrayAdapter<Application> implements OnItemClickListener {
@@ -47,19 +53,21 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
 
         Drawable icon = app.icon;
 
-        int width = 82;//(int) resources.getDimension(android.R.dimen.app_icon_size);
-        int height = 82;//(int) resources.getDimension(android.R.dimen.app_icon_size);
+        int width = SleekGridView.getColumnPixels(activity) - 2 * DimensionUtils.getPixelForDp(activity, 10);
+        int height = width;
 
         final int iconWidth = icon.getIntrinsicWidth();
         final int iconHeight = icon.getIntrinsicHeight();
-
+        
+        Log.d("ps", "App:" + app.name + " Icon:" + iconWidth + "x" + iconHeight);
+        
         if (icon instanceof PaintDrawable) {
             PaintDrawable painter = (PaintDrawable) icon;
             painter.setIntrinsicWidth(width);
             painter.setIntrinsicHeight(height);
         }
 
-        if (width > 0 && height > 0 && (width < iconWidth || height < iconHeight)) {
+//        if (width > 0 && height > 0 && (width < iconWidth || height < iconHeight)) {
             final float ratio = (float) iconWidth / iconHeight;
 
             if (iconWidth > iconHeight) {
@@ -67,11 +75,14 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
             } else if (iconHeight > iconWidth) {
                 width = (int) (height * ratio);
             }
+            
+            Log.d("ps", "In:" + app.name + " " + width + "x" + height);
 
             final Bitmap.Config c =
                     icon.getOpacity() != PixelFormat.OPAQUE ?
                         Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
             final Bitmap thumb = Bitmap.createBitmap(width, height, c);
+            
             final Canvas canvas = new Canvas(thumb);
             canvas.setDrawFilter(new PaintFlagsDrawFilter(Paint.DITHER_FLAG, 0));
             // Copy the old bounds to restore them later
@@ -84,14 +95,19 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
             icon.draw(canvas);
             icon.setBounds(mOldBounds);
             icon = app.icon = new BitmapDrawable(thumb);
-        }
-            
+//        }
+        
         final TextView textView = (TextView) convertView.findViewById(R.id.label);
         textView.setText(app.name);
         
-        final ImageView imageView = (ImageView) convertView.findViewById(R.id.icon_image);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.icon_image);
+        int viewEdge = Math.max(height, width);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(viewEdge, viewEdge);
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+		imageView.setLayoutParams(layoutParams);
+		imageView.setScaleType(ScaleType.CENTER_INSIDE);
         imageView.setImageDrawable(icon);
-
+        
         return convertView;
     }
     
