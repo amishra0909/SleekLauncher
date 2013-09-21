@@ -16,39 +16,29 @@
 
 package com.ps.sleek;
 
-import java.io.IOException;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.GridView;
 
 import com.ps.sleek.adapter.ApplicationAdapter;
 import com.ps.sleek.broadcastreceivers.ApplicationReceiver;
 import com.ps.sleek.manager.ApplicationManager;
-import com.ps.sleek.model.ClippedDrawable;
+import com.ps.sleek.view.SleekGridView;
 
 public class SleekLauncher extends Activity implements OnClickListener {
-
-	private static final String LOG_TAG = "SleekLauncher";
 
 	/**
 	 * Keys during freeze/thaw.
 	 */
 	private static final String KEY_SAVE_GRID_OPENED = "grid.opened";
 
-	private static boolean mWallpaperChecked;
-
 	private final ApplicationReceiver mApplicationsReceiver = new ApplicationReceiver();
 
-	private GridView mGrid;
+	private SleekGridView mGrid;
 
 	private LayoutAnimationController mShowLayoutAnimation;
 	private LayoutAnimationController mHideLayoutAnimation;
@@ -82,16 +72,6 @@ public class SleekLauncher extends Activity implements OnClickListener {
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-
-		// Close the menu
-		if (Intent.ACTION_MAIN.equals(intent.getAction())) {
-			getWindow().closeAllPanels();
-		}
-	}
-
-	@Override
 	public void onDestroy() {
 		super.onDestroy();
 
@@ -122,12 +102,9 @@ public class SleekLauncher extends Activity implements OnClickListener {
 		mApplicationsReceiver.register(this);
 	}
 
-	/**
-	 * Creates a new appplications adapter for the grid view and registers it.
-	 */
 	private void bindApplications() {
 		if (mGrid == null) {
-			mGrid = (GridView) findViewById(R.id.all_apps);
+			mGrid = (SleekGridView) findViewById(R.id.all_apps);
 		}
 		ApplicationAdapter adapter = new ApplicationAdapter(this);
 		mGrid.setAdapter(adapter);
@@ -227,6 +204,15 @@ public class SleekLauncher extends Activity implements OnClickListener {
 		} else {
 			hideApplications();
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if(mGrid.getVisibility() == View.VISIBLE) {
+			hideApplications();
+			return;
+		}
+		super.onBackPressed();
 	}
 
 }

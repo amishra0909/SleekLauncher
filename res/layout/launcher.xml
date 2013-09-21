@@ -5,6 +5,7 @@
     android:orientation="vertical" >
 
     <com.ps.sleek.view.SleekGridView
+        android:background="#7a000000"
         android:id="@+id/all_apps"
         android:layout_width="match_parent"
         android:layout_height="0dp"
