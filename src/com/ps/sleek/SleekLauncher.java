@@ -32,7 +32,6 @@ import android.widget.GridView;
 
 import com.ps.sleek.adapter.ApplicationAdapter;
 import com.ps.sleek.broadcastreceivers.ApplicationReceiver;
-import com.ps.sleek.broadcastreceivers.WallpaperReceiver;
 import com.ps.sleek.manager.ApplicationManager;
 import com.ps.sleek.model.ClippedDrawable;
 
@@ -47,7 +46,6 @@ public class SleekLauncher extends Activity implements OnClickListener {
 
 	private static boolean mWallpaperChecked;
 
-	private final WallpaperReceiver mWallpaperReceiver = new WallpaperReceiver();
 	private final ApplicationReceiver mApplicationsReceiver = new ApplicationReceiver();
 
 	private GridView mGrid;
@@ -73,8 +71,6 @@ public class SleekLauncher extends Activity implements OnClickListener {
 		setContentView(R.layout.launcher);
 
 		registerIntentReceivers();
-
-		setDefaultWallpaper();
 
 		bindApplications();
 		// bindFavorites(true);
@@ -103,7 +99,6 @@ public class SleekLauncher extends Activity implements OnClickListener {
 		// the previous Home screen on orientation change
 		ApplicationManager.getInstance(this).teardown();
 
-		unregisterReceiver(mWallpaperReceiver);
 		unregisterReceiver(mApplicationsReceiver);
 	}
 
@@ -123,13 +118,7 @@ public class SleekLauncher extends Activity implements OnClickListener {
 				mGrid.getVisibility() == View.VISIBLE);
 	}
 
-	/**
-	 * Registers various intent receivers. The current implementation registers
-	 * only a wallpaper intent receiver to let other applications change the
-	 * wallpaper.
-	 */
 	private void registerIntentReceivers() {
-		mWallpaperReceiver.register(this);
 		mApplicationsReceiver.register(this);
 	}
 
@@ -149,26 +138,6 @@ public class SleekLauncher extends Activity implements OnClickListener {
 	private void bindButtons() {
 		mShowApplications = findViewById(R.id.app_button);
 		mShowApplications.setOnClickListener(this);
-	}
-
-	/**
-	 * When no wallpaper was manually set, a default wallpaper is used instead.
-	 */
-	private void setDefaultWallpaper() {
-		if (!mWallpaperChecked) {
-			Drawable wallpaper = peekWallpaper();
-			if (wallpaper == null) {
-				try {
-					clearWallpaper();
-				} catch (IOException e) {
-					Log.e(LOG_TAG, "Failed to clear wallpaper " + e);
-				}
-			} else {
-				getWindow().setBackgroundDrawable(
-						new ClippedDrawable(wallpaper));
-			}
-			mWallpaperChecked = true;
-		}
 	}
 
 	private void showApplications(boolean animate) {
