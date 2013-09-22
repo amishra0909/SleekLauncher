@@ -20,7 +20,6 @@ import android.app.WallpaperManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +28,7 @@ import com.ps.sleek.adapter.ParallaxAdapter;
 import com.ps.sleek.broadcastreceivers.ApplicationReceiver;
 import com.ps.sleek.manager.ApplicationManager;
 import com.ps.sleek.utils.DimensionUtils;
+import com.ps.sleek.view.ViewPagerParallax;
 
 public class SleekLauncher extends FragmentActivity implements OnClickListener {
 
@@ -41,7 +41,7 @@ public class SleekLauncher extends FragmentActivity implements OnClickListener {
 	
 	private View mShowApplications;
 
-	private ViewPager viewPager;
+	private ViewPagerParallax viewPager;
 
 	@Override
 	public void onCreate(Bundle icicle) {
@@ -51,7 +51,7 @@ public class SleekLauncher extends FragmentActivity implements OnClickListener {
 		
 		setContentView(R.layout.activity_launcher);
 		
-		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager = (ViewPagerParallax) findViewById(R.id.pager);
 		viewPager.setAdapter(new ParallaxAdapter(getSupportFragmentManager()));
 		
 		bindButtons();

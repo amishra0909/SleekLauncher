@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alwaysDrawnWithCache="true"
-    android:background="#7a000000"
+    android:background="#4a000000"
     android:drawSelectorOnTop="false"
     android:horizontalSpacing="5dp"
     android:padding="5dp"

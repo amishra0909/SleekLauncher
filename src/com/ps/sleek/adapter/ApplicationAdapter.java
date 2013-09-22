@@ -47,7 +47,7 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
 
         if (convertView == null) {
             final LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.application, parent, false);
+            convertView = inflater.inflate(R.layout.view_application, parent, false);
         }
 
         Drawable icon = app.icon;
