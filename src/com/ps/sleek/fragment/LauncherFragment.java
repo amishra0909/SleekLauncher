@@ -1,11 +1,9 @@
 package com.ps.sleek.fragment;
 
-import android.app.Fragment;
-import android.app.WallpaperManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,20 +13,13 @@ import com.ps.sleek.R;
 import com.ps.sleek.adapter.ApplicationAdapter;
 import com.ps.sleek.view.SleekGridView;
 
-public class LauncherFragment extends Fragment implements OnClickListener {
-	
-	/**
-	 * Keys during freeze/thaw.
-	 */
-	private static final String KEY_SAVE_GRID_OPENED = "grid.opened";
+public class LauncherFragment extends Fragment {
 	
 	private LayoutAnimationController mShowLayoutAnimation;
 	private LayoutAnimationController mHideLayoutAnimation;
 
 	private boolean mBlockAnimation;
 
-	private View mShowApplications;
-	
 	private SleekGridView mGrid;
 
 	private Animation mGridEntry;
@@ -45,7 +36,6 @@ public class LauncherFragment extends Fragment implements OnClickListener {
 		super.onViewCreated(view, savedInstanceState);
 		
 		bindApplications();
-		bindButtons();
 
 		mGridEntry = AnimationUtils.loadAnimation(getActivity(), R.anim.grid_entry);
 		mGridExit = AnimationUtils.loadAnimation(getActivity(), R.anim.grid_exit);
@@ -59,11 +49,6 @@ public class LauncherFragment extends Fragment implements OnClickListener {
 		mGrid.setAdapter(adapter);
 		mGrid.setSelection(0);
 		mGrid.setOnItemClickListener(adapter);
-	}
-
-	private void bindButtons() {
-		mShowApplications = getView().findViewById(R.id.app_button);
-		mShowApplications.setOnClickListener(this);
 	}
 
 	private void showApplications(boolean animate) {
@@ -112,7 +97,7 @@ public class LauncherFragment extends Fragment implements OnClickListener {
 		mGridExit.setAnimationListener(new HideGrid());
 		mGrid.startAnimation(mGridExit);
 		mGrid.setVisibility(View.INVISIBLE);
-		mShowApplications.requestFocus();
+//		mShowApplications.requestFocus();
 
 		// This enables a layout animation; if you uncomment this code, you need
 		// to
@@ -122,25 +107,6 @@ public class LauncherFragment extends Fragment implements OnClickListener {
 		// mGrid.startLayoutAnimation();
 	}
 	
-	@Override
-	public void onViewStateRestored(Bundle savedInstanceState) {
-		super.onViewStateRestored(savedInstanceState);
-		if(savedInstanceState == null) {
-			return;
-		}
-		final boolean opened = savedInstanceState.getBoolean(KEY_SAVE_GRID_OPENED, false);
-		if (opened) {
-			showApplications(false);
-		}
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean(KEY_SAVE_GRID_OPENED,
-				mGrid.getVisibility() == View.VISIBLE);
-	}
-
 	private class HideGrid implements Animation.AnimationListener {
 		public void onAnimationStart(Animation animation) {
 		}
@@ -163,23 +129,6 @@ public class LauncherFragment extends Fragment implements OnClickListener {
 
 		public void onAnimationRepeat(Animation animation) {
 		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		if (mGrid.getVisibility() != View.VISIBLE) {
-			showApplications(true);
-		} else {
-			hideApplications();
-		}
-	}
-
-	public boolean onBackPressed() {
-		if (mGrid.getVisibility() == View.VISIBLE) {
-			hideApplications();
-			return true;
-		}
-		return false;
 	}
 
 }

@@ -16,17 +16,32 @@
 
 package com.ps.sleek;
 
-import android.app.Activity;
+import android.app.WallpaperManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 
+import com.ps.sleek.adapter.ParallaxAdapter;
 import com.ps.sleek.broadcastreceivers.ApplicationReceiver;
-import com.ps.sleek.fragment.LauncherFragment;
 import com.ps.sleek.manager.ApplicationManager;
+import com.ps.sleek.utils.DimensionUtils;
 
-public class SleekLauncher extends Activity {
+public class SleekLauncher extends FragmentActivity implements OnClickListener {
 
+	/**
+	 * Keys during freeze/thaw.
+	 */
+	private static final String KEY_SAVE_GRID_OPENED = "grid.opened";
+	
 	private final ApplicationReceiver mApplicationsReceiver = new ApplicationReceiver();
-	private LauncherFragment fragment;
+	
+	private View mShowApplications;
+
+	private ViewPager viewPager;
 
 	@Override
 	public void onCreate(Bundle icicle) {
@@ -36,9 +51,29 @@ public class SleekLauncher extends Activity {
 		
 		setContentView(R.layout.activity_launcher);
 		
-		fragment = (LauncherFragment) getFragmentManager().findFragmentById(R.id.launcher_fragment);
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager.setAdapter(new ParallaxAdapter(getSupportFragmentManager()));
+		
+		bindButtons();
+		
+		Drawable drawable = WallpaperManager.getInstance(this).getDrawable();
+		Log.d("wallpaper", drawable.getIntrinsicWidth() + "x" + drawable.getIntrinsicHeight() + "," + DimensionUtils.getWidthPixels(this) + "x" + DimensionUtils.getHeightPixels(this));
 		
 		registerIntentReceivers();
+	}
+	
+	private void bindButtons() {
+		mShowApplications = findViewById(R.id.app_button);
+		mShowApplications.setOnClickListener(this);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		if (viewPager.getVisibility() != View.VISIBLE) {
+			viewPager.setVisibility(View.VISIBLE);
+		} else {
+			viewPager.setVisibility(View.INVISIBLE);
+		}
 	}
 	
 	@Override
@@ -55,10 +90,30 @@ public class SleekLauncher extends Activity {
 	private void registerIntentReceivers() {
 		mApplicationsReceiver.register(this);
 	}
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if(savedInstanceState == null) {
+			return;
+		}
+		final boolean opened = savedInstanceState.getBoolean(KEY_SAVE_GRID_OPENED, false);
+		if (opened) {
+			viewPager.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(KEY_SAVE_GRID_OPENED,
+				viewPager.getVisibility() == View.VISIBLE);
+	}
 
 	@Override
 	public void onBackPressed() {
-		if(fragment.onBackPressed()) {
+		if (viewPager.getVisibility() == View.VISIBLE) {
+			viewPager.setVisibility(View.INVISIBLE);
 			return;
 		}
 		super.onBackPressed();

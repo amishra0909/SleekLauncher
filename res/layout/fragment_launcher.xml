@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ps.sleek.view.SleekGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/all_apps"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <com.ps.sleek.view.SleekGridView
-        android:background="#7a000000"
-        android:id="@+id/all_apps"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:alwaysDrawnWithCache="true"
-        android:drawSelectorOnTop="false"
-        android:persistentDrawingCache="animation|scrolling"
-        android:scrollbars="none"
-        android:horizontalSpacing="5dp"
-        android:verticalSpacing="0dp"
-        android:padding="5dp"
-        android:stretchMode="columnWidth"
-        android:visibility="invisible" />
-    
-    <Button android:layout_width="match_parent"
-        android:id="@+id/app_button"
-        android:layout_height="wrap_content"
-        android:text="Apps"/>
-
-</LinearLayout>
+    android:alwaysDrawnWithCache="true"
+    android:background="#7a000000"
+    android:drawSelectorOnTop="false"
+    android:horizontalSpacing="5dp"
+    android:padding="5dp"
+    android:persistentDrawingCache="animation|scrolling"
+    android:scrollbars="none"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="0dp" />
