@@ -32,7 +32,6 @@ import com.ps.sleek.view.SleekGridView;
 import com.ps.sleek.R;
 
 public class ApplicationAdapter extends ArrayAdapter<Application> implements OnItemClickListener {
-    private Rect mOldBounds = new Rect();
 	private ArrayList<Application> mApplications;
 	private Context activity;
 
@@ -67,7 +66,7 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
             painter.setIntrinsicHeight(height);
         }
 
-//        if (width > 0 && height > 0 && (width < iconWidth || height < iconHeight)) {
+        if (width != Math.max(iconWidth, iconHeight)) {
             final float ratio = (float) iconWidth / iconHeight;
 
             if (iconWidth > iconHeight) {
@@ -90,12 +89,13 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
             // the call to setBounds() that follows would
             // change the same instance and we would lose the
             // old bounds
+            Rect mOldBounds = new Rect();
             mOldBounds.set(icon.getBounds());
             icon.setBounds(0, 0, width, height);
             icon.draw(canvas);
             icon.setBounds(mOldBounds);
             icon = app.icon = new BitmapDrawable(thumb);
-//        }
+        }
         
         final TextView textView = (TextView) convertView.findViewById(R.id.label);
         textView.setText(app.name);
@@ -103,7 +103,7 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
         ImageView imageView = (ImageView) convertView.findViewById(R.id.icon_image);
         int viewEdge = Math.max(height, width);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(viewEdge, viewEdge);
-        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+        layoutParams.gravity = Gravity.TOP;
 		imageView.setLayoutParams(layoutParams);
 		imageView.setScaleType(ScaleType.CENTER_INSIDE);
         imageView.setImageDrawable(icon);
