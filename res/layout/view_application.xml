@@ -5,7 +5,9 @@
 
     <ImageView
         android:id="@+id/icon_image"
-        android:padding="5dp" 
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" 
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"

@@ -15,7 +15,8 @@ public class AppsLayoutUtils {
 	}
 	
 	public static int getRowPixels(Context context) {
-		return (getColumnPixels(context) + 
+		return (getColumnPixels(context) -
+				DimensionUtils.getPixelForDp(context, 5) +
 				2 * DimensionUtils.getPixelForSp(context, (float) (12 * 1.5)) + 
 				2 * DimensionUtils.getPixelForDp(context, 2));
 	}
@@ -25,7 +26,7 @@ public class AppsLayoutUtils {
 	}
 	
 	public static int getNumPages(Context context) {
-		return AppsManager.getInstance(context).getApplications().size() / (NUM_COLUMNS * getNumRows(context));
+		return (int) Math.ceil((double) AppsManager.getInstance(context).getApplications().size() / (NUM_COLUMNS * getNumRows(context)));
 	}
 	
 	public static int getVerticalSpacing(Context context) {

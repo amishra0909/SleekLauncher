@@ -103,7 +103,7 @@ public class AppsAdapter extends ArrayAdapter<App> implements OnItemClickListene
         
         ImageView imageView = (ImageView) convertView.findViewById(R.id.icon_image);
         int viewEdge = Math.max(height, width) + 2 * padding;
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(viewEdge, viewEdge);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(viewEdge, viewEdge - padding);
 		imageView.setLayoutParams(layoutParams);
 		imageView.setScaleType(ScaleType.CENTER_INSIDE);
 		imageView.setPadding(padding, padding, padding, padding);

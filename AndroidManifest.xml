@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.ApplicationsActivity"
+            android:name=".activity.AppsActivity"
             android:theme="@android:style/Theme.Wallpaper"
             android:stateNotNeeded="true" />
     </application>
