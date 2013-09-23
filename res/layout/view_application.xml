@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/icon_image"
+        android:padding="5dp" 
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/label"
@@ -17,11 +17,12 @@
         android:layout_height="wrap_content"
         android:background="#3a000000"
         android:ellipsize="end"
-        android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:maxLines="2"
         android:padding="2dp"
+        android:layout_below="@+id/icon_image"
+        android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"
         android:textSize="12sp" />
 
-</LinearLayout>
+</RelativeLayout>

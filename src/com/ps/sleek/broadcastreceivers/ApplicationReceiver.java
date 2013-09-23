@@ -1,11 +1,11 @@
 package com.ps.sleek.broadcastreceivers;
 
-import com.ps.sleek.manager.ApplicationManager;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+
+import com.ps.sleek.manager.ApplicationManager;
 
 /**
  * Receives notifications when applications are added/removed.

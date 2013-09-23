@@ -13,32 +13,31 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ps.sleek.manager.ApplicationManager;
-import com.ps.sleek.model.Application;
-import com.ps.sleek.utils.DimensionUtils;
-import com.ps.sleek.view.SleekGridView;
 import com.ps.sleek.R;
+import com.ps.sleek.model.Application;
+import com.ps.sleek.utils.ApplicationLayoutUtils;
+import com.ps.sleek.utils.DimensionUtils;
 
 public class ApplicationAdapter extends ArrayAdapter<Application> implements OnItemClickListener {
 	private ArrayList<Application> mApplications;
 	private Context activity;
 
-    public ApplicationAdapter(Context context) {
-    	super(context, 0, ApplicationManager.getInstance(context).getApplications());
+    public ApplicationAdapter(Context context, ArrayList<Application> applications) {
+    	super(context, 0, applications);
     	this.activity = context;
-    	this.mApplications = ApplicationManager.getInstance(context).getApplications();
+    	this.mApplications = applications;
     }
 
     @Override
@@ -48,11 +47,13 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
         if (convertView == null) {
             final LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.view_application, parent, false);
+            convertView.setLayoutParams(new AbsListView.LayoutParams(ApplicationLayoutUtils.getColumnPixels(activity), ApplicationLayoutUtils.getRowPixels(activity)));
         }
 
         Drawable icon = app.icon;
 
-        int width = SleekGridView.getColumnPixels(activity) - 2 * DimensionUtils.getPixelForDp(activity, 10);
+        int padding = DimensionUtils.getPixelForDp(activity, 5);
+		int width = ApplicationLayoutUtils.getColumnPixels(activity) - 2 * padding;
         int height = width;
 
         final int iconWidth = icon.getIntrinsicWidth();
@@ -101,11 +102,11 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
         textView.setText(app.name);
         
         ImageView imageView = (ImageView) convertView.findViewById(R.id.icon_image);
-        int viewEdge = Math.max(height, width);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(viewEdge, viewEdge);
-        layoutParams.gravity = Gravity.TOP;
+        int viewEdge = Math.max(height, width) + 2 * padding;
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(viewEdge, viewEdge);
 		imageView.setLayoutParams(layoutParams);
 		imageView.setScaleType(ScaleType.CENTER_INSIDE);
+		imageView.setPadding(padding, padding, padding, padding);
         imageView.setImageDrawable(icon);
         
         return convertView;

@@ -12,6 +12,7 @@ import android.content.pm.ResolveInfo;
 import android.util.Log;
 
 import com.ps.sleek.model.Application;
+import com.ps.sleek.utils.ApplicationLayoutUtils;
 
 public class ApplicationManager {
 	
@@ -80,5 +81,12 @@ public class ApplicationManager {
             }
         }
     }
+
+	public ArrayList<Application> getApplicationsSet(int position) {
+		int num = 5 * ApplicationLayoutUtils.getNumRows(context);
+		int start = num * position;
+		int end = Math.min(num * (position + 1), getApplications().size());
+		return new ArrayList<Application>(getApplications().subList(start, end));
+	}
 
 }
