@@ -24,15 +24,15 @@ import android.view.Window;
 
 import com.ps.sleek.R;
 import com.ps.sleek.adapter.ParallaxAdapter;
-import com.ps.sleek.broadcastreceivers.ApplicationReceiver;
+import com.ps.sleek.broadcastreceivers.AppsReceiver;
 import com.ps.sleek.broadcastreceivers.WallpaperReceiver;
 import com.ps.sleek.broadcastreceivers.WallpaperReceiver.OnWallpaperChangedListener;
-import com.ps.sleek.manager.ApplicationManager;
+import com.ps.sleek.manager.AppsManager;
 import com.ps.sleek.view.ViewPagerParallax;
 
-public class ApplicationsActivity extends FragmentActivity implements OnWallpaperChangedListener {
+public class AppsActivity extends FragmentActivity implements OnWallpaperChangedListener {
 
-	private final ApplicationReceiver mApplicationsReceiver = new ApplicationReceiver();
+	private final AppsReceiver mApplicationsReceiver = new AppsReceiver();
 	private final WallpaperReceiver wallpaperReceiver = new WallpaperReceiver();
 	
 	private ViewPagerParallax viewPager;
@@ -44,7 +44,7 @@ public class ApplicationsActivity extends FragmentActivity implements OnWallpape
 		setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		
-		setContentView(R.layout.activity_applications);
+		setContentView(R.layout.activity_apps);
 		
 		viewPager = (ViewPagerParallax) findViewById(R.id.pager);
 		viewPager.setAdapter(new ParallaxAdapter(this, getSupportFragmentManager()));
@@ -58,7 +58,7 @@ public class ApplicationsActivity extends FragmentActivity implements OnWallpape
 
 		// Remove the callback for the cached drawables or we leak
 		// the previous Home screen on orientation change
-		ApplicationManager.getInstance(this).teardown();
+		AppsManager.getInstance(this).teardown();
 
 		unregisterReceiver(mApplicationsReceiver);
 		unregisterReceiver(wallpaperReceiver);
@@ -71,7 +71,7 @@ public class ApplicationsActivity extends FragmentActivity implements OnWallpape
 	}
 
 	public static void start(Activity activity) {
-		activity.startActivity(new Intent(activity, ApplicationsActivity.class));
+		activity.startActivity(new Intent(activity, AppsActivity.class));
 		activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
 

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.ps.sleek.model.Background;
-import com.ps.sleek.utils.ApplicationLayoutUtils;
+import com.ps.sleek.utils.AppsLayoutUtils;
 import com.ps.sleek.utils.DimensionUtils;
 
 public class BackgroundManager {
@@ -31,12 +31,12 @@ public class BackgroundManager {
 	
 	public Background getBackground() {
 		if(background == null) {
-			loadWallpaper();
+			loadBackground();
 		}
 		return background;
 	}
 	
-    public void loadWallpaper() {
+    public void loadBackground() {
     	Drawable wallpaper = WallpaperManager.getInstance(context).getDrawable();
 		background = new Background(wallpaper);
     	background.height = wallpaper.getIntrinsicHeight();
@@ -55,7 +55,7 @@ public class BackgroundManager {
 		}
 
 		background.overlapLevel = background.zoomLevel * Math.min(Math.max(background.width / background.zoomLevel - screenWidth, 0)
-						/ (ApplicationLayoutUtils.getNumPages(context) - 1),
+						/ (AppsLayoutUtils.getNumPages(context) - 1),
 						screenWidth / 2); // how many pixels to shift for each panel
     }
     

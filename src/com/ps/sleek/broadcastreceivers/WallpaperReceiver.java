@@ -11,7 +11,7 @@ public class WallpaperReceiver extends BroadcastReceiver {
 
 	@Override
     public void onReceive(Context context, Intent intent) {
-		BackgroundManager.getInstance(context).loadWallpaper();
+		BackgroundManager.getInstance(context).loadBackground();
     }
     
     public void register(Context context) {

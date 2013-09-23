@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Application implements Parcelable {
+public class App implements Parcelable {
 
 	public String name;
 
@@ -30,9 +30,9 @@ public class Application implements Parcelable {
 		intent.setFlags(launchFlags);
 	}
 	
-	public Application() {}
+	public App() {}
 
-	public Application(Parcel in) {
+	public App(Parcel in) {
 		this.name = in.readString();
 		this.packageName = in.readString();
 		this.intent = in.readParcelable(Intent.class.getClassLoader());
@@ -52,13 +52,13 @@ public class Application implements Parcelable {
 		dest.writeParcelable(drawableToBitmap(icon), flags);
 	}
 
-	public static final Parcelable.Creator<Application> CREATOR = new Parcelable.Creator<Application>() {
-		public Application createFromParcel(Parcel in) {
-			return new Application(in);
+	public static final Parcelable.Creator<App> CREATOR = new Parcelable.Creator<App>() {
+		public App createFromParcel(Parcel in) {
+			return new App(in);
 		}
 
-		public Application[] newArray(int size) {
-			return new Application[size];
+		public App[] newArray(int size) {
+			return new App[size];
 		}
 	};
 

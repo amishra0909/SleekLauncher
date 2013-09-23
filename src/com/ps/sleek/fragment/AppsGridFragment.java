@@ -9,32 +9,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ps.sleek.R;
-import com.ps.sleek.adapter.ApplicationAdapter;
-import com.ps.sleek.model.Application;
+import com.ps.sleek.adapter.AppsAdapter;
+import com.ps.sleek.model.App;
 import com.ps.sleek.view.SleekGridView;
 
-public class ApplicationsFragment extends Fragment {
+public class AppsGridFragment extends Fragment {
 	
 	private static final String KEY_APPLICATIONS = "applications";
 
 	private SleekGridView mGrid;
 
-	private ArrayList<Application> applications;
+	private ArrayList<App> applications;
 	
-	public static ApplicationsFragment getFragment(ArrayList<Application> applications) {
-		ApplicationsFragment fragment = new ApplicationsFragment();
+	public static AppsGridFragment getFragment(ArrayList<App> applications) {
+		AppsGridFragment fragment = new AppsGridFragment();
 		fragment.setApplications(applications);
 		return fragment;
 	}
 	
-	private void setApplications(ArrayList<Application> applications) {
+	private void setApplications(ArrayList<App> applications) {
 		this.applications = applications;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_applications, container, false);
+		return inflater.inflate(R.layout.fragment_apps, container, false);
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class ApplicationsFragment extends Fragment {
 	
 	private void bindApplications() {
 		mGrid = (SleekGridView) getView().findViewById(R.id.all_apps);
-		ApplicationAdapter adapter = new ApplicationAdapter(getActivity(), applications);
+		AppsAdapter adapter = new AppsAdapter(getActivity(), applications);
 		mGrid.setAdapter(adapter);
 		mGrid.setSelection(0);
 		mGrid.setOnItemClickListener(adapter);

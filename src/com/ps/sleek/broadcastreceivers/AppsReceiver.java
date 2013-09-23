@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.ps.sleek.manager.ApplicationManager;
+import com.ps.sleek.manager.AppsManager;
 
 /**
  * Receives notifications when applications are added/removed.
  */
-public class ApplicationReceiver extends BroadcastReceiver {
+public class AppsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        ApplicationManager.getInstance(context).loadApplications();
+        AppsManager.getInstance(context).loadApplications();
     }
     
     public void register(Context context) {

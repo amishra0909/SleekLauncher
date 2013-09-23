@@ -5,29 +5,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.ps.sleek.fragment.ApplicationsFragment;
-import com.ps.sleek.manager.ApplicationManager;
-import com.ps.sleek.utils.ApplicationLayoutUtils;
+import com.ps.sleek.fragment.AppsGridFragment;
+import com.ps.sleek.manager.AppsManager;
+import com.ps.sleek.utils.AppsLayoutUtils;
 
 public class ParallaxAdapter extends FragmentStatePagerAdapter {
 
 	private Context context;
-	private ApplicationManager applicationManager;
+	private AppsManager applicationManager;
 
 	public ParallaxAdapter(Context context, FragmentManager fm) {
 		super(fm);
 		this.context = context;
-		applicationManager = ApplicationManager.getInstance(context);
+		applicationManager = AppsManager.getInstance(context);
 	}
 
 	@Override
 	public Fragment getItem(int position) {
-		return ApplicationsFragment.getFragment(applicationManager.getApplicationsSet(position));
+		return AppsGridFragment.getFragment(applicationManager.getApplicationsSet(position));
 	}
 
 	@Override
 	public int getCount() {
-		return ApplicationLayoutUtils.getNumPages(context);
+		return AppsLayoutUtils.getNumPages(context);
 	}
 
 }

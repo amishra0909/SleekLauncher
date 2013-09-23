@@ -26,15 +26,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ps.sleek.R;
-import com.ps.sleek.model.Application;
-import com.ps.sleek.utils.ApplicationLayoutUtils;
+import com.ps.sleek.model.App;
+import com.ps.sleek.utils.AppsLayoutUtils;
 import com.ps.sleek.utils.DimensionUtils;
 
-public class ApplicationAdapter extends ArrayAdapter<Application> implements OnItemClickListener {
-	private ArrayList<Application> mApplications;
+public class AppsAdapter extends ArrayAdapter<App> implements OnItemClickListener {
+	private ArrayList<App> mApplications;
 	private Context activity;
 
-    public ApplicationAdapter(Context context, ArrayList<Application> applications) {
+    public AppsAdapter(Context context, ArrayList<App> applications) {
     	super(context, 0, applications);
     	this.activity = context;
     	this.mApplications = applications;
@@ -42,18 +42,18 @@ public class ApplicationAdapter extends ArrayAdapter<Application> implements OnI
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Application app = mApplications.get(position);
+        final App app = mApplications.get(position);
 
         if (convertView == null) {
             final LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.view_application, parent, false);
-            convertView.setLayoutParams(new AbsListView.LayoutParams(ApplicationLayoutUtils.getColumnPixels(activity), ApplicationLayoutUtils.getRowPixels(activity)));
+            convertView.setLayoutParams(new AbsListView.LayoutParams(AppsLayoutUtils.getColumnPixels(activity), AppsLayoutUtils.getRowPixels(activity)));
         }
 
         Drawable icon = app.icon;
 
         int padding = DimensionUtils.getPixelForDp(activity, 5);
-		int width = ApplicationLayoutUtils.getColumnPixels(activity) - 2 * padding;
+		int width = AppsLayoutUtils.getColumnPixels(activity) - 2 * padding;
         int height = width;
 
         final int iconWidth = icon.getIntrinsicWidth();

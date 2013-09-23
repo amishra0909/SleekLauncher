@@ -10,39 +10,39 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.ps.sleek.model.Application;
-import com.ps.sleek.utils.ApplicationLayoutUtils;
+import com.ps.sleek.model.App;
+import com.ps.sleek.utils.AppsLayoutUtils;
 
-public class ApplicationManager {
+public class AppsManager {
 	
-	private static ApplicationManager instance;
+	private static AppsManager instance;
 	
-	private ArrayList<Application> applications;
+	private ArrayList<App> applications;
 
 	private Context context;
 	
-	private ApplicationManager() {}
+	private AppsManager() {}
 	
-	private ApplicationManager(Context context) {
+	private AppsManager(Context context) {
 		this.context = context;
-		applications = new ArrayList<Application>();
+		applications = new ArrayList<App>();
 	}
 	
-	public static ApplicationManager getInstance(Context context) {
+	public static AppsManager getInstance(Context context) {
 		if(instance == null) {
-			instance = new ApplicationManager(context);
+			instance = new AppsManager(context);
 		}
 		return instance;
 	}
 	
 	public void teardown() {
 		/* Remove app callbacks */
-        for (Application app : applications) {
+        for (App app : applications) {
             app.icon.setCallback(null);
         }
 	}
 
-	public ArrayList<Application> getApplications() {
+	public ArrayList<App> getApplications() {
 		if(applications.isEmpty()) {
 			loadApplications();
 		}
@@ -65,7 +65,7 @@ public class ApplicationManager {
             applications.clear();
 
             for (ResolveInfo app : apps) {
-                Application application = new Application();
+                App application = new App();
 
                 application.name = app.loadLabel(manager).toString();
                 application.setActivity(new ComponentName(
@@ -80,11 +80,11 @@ public class ApplicationManager {
         }
     }
 
-	public ArrayList<Application> getApplicationsSet(int position) {
-		int num = 5 * ApplicationLayoutUtils.getNumRows(context);
+	public ArrayList<App> getApplicationsSet(int position) {
+		int num = 5 * AppsLayoutUtils.getNumRows(context);
 		int start = num * position;
 		int end = Math.min(num * (position + 1), getApplications().size());
-		return new ArrayList<Application>(getApplications().subList(start, end));
+		return new ArrayList<App>(getApplications().subList(start, end));
 	}
 
 }

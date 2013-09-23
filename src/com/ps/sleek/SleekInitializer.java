@@ -4,7 +4,7 @@ package com.ps.sleek;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-import com.ps.sleek.model.Application;
+import com.ps.sleek.model.App;
 import com.xtreme.rest.DatabaseInitializer;
 import com.xtreme.rest.utils.Logger;
 
@@ -20,9 +20,9 @@ public class SleekInitializer implements DatabaseInitializer {
 
     private static final String CREATE_TABLE_APPLICATION = "CREATE TABLE IF NOT EXISTS " + Tables.APPLICATIONS + " ( "
     	+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-        + Application.Columns.NAME + " TEXT, "
-        + Application.Columns.PACKAGE + " TEXT, "
-		+ "UNIQUE (" + Application.Columns.PACKAGE + ") ON CONFLICT REPLACE);";
+        + App.Columns.NAME + " TEXT, "
+        + App.Columns.PACKAGE + " TEXT, "
+		+ "UNIQUE (" + App.Columns.PACKAGE + ") ON CONFLICT REPLACE);";
 
 
 //    private static final String CREATE_VIEW_WIDGET_ARTICLE_IMAGES = "CREATE VIEW IF NOT EXISTS " + Views.WIDGET_ARTICLE_IMAGES  + " AS "

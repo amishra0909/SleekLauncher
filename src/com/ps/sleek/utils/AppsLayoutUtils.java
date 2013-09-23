@@ -1,11 +1,11 @@
 package com.ps.sleek.utils;
 
-import com.ps.sleek.manager.ApplicationManager;
+import com.ps.sleek.manager.AppsManager;
 
 import android.content.Context;
 
 
-public class ApplicationLayoutUtils {
+public class AppsLayoutUtils {
 	
 	private static final int NUM_COLUMNS = 5;
 	
@@ -25,7 +25,7 @@ public class ApplicationLayoutUtils {
 	}
 	
 	public static int getNumPages(Context context) {
-		return ApplicationManager.getInstance(context).getApplications().size() / (NUM_COLUMNS * getNumRows(context));
+		return AppsManager.getInstance(context).getApplications().size() / (NUM_COLUMNS * getNumRows(context));
 	}
 	
 	public static int getVerticalSpacing(Context context) {

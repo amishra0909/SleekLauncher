@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.GridView;
 
-import com.ps.sleek.utils.ApplicationLayoutUtils;
+import com.ps.sleek.utils.AppsLayoutUtils;
 
 public class SleekGridView extends GridView {
 	
@@ -22,7 +22,7 @@ public class SleekGridView extends GridView {
 	
 	private void init(Context context) {
 		setNumColumns(NUM_COLUMNS);
-		setColumnWidth(ApplicationLayoutUtils.getColumnPixels(context));
-		setVerticalSpacing(ApplicationLayoutUtils.getVerticalSpacing(context));
+		setColumnWidth(AppsLayoutUtils.getColumnPixels(context));
+		setVerticalSpacing(AppsLayoutUtils.getVerticalSpacing(context));
 	}
 }

@@ -47,7 +47,7 @@ public class LauncherActivity extends FragmentActivity implements OnClickListene
 	
 	@Override
 	public void onClick(View v) {
-		ApplicationsActivity.start(this);
+		AppsActivity.start(this);
 	}
 	
 }
