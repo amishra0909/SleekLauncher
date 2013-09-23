@@ -3,13 +3,16 @@ package com.ps.sleek.manager;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+
+import com.ps.sleek.model.Background;
+import com.ps.sleek.utils.ApplicationLayoutUtils;
+import com.ps.sleek.utils.DimensionUtils;
 
 public class BackgroundManager {
 	
 	private static BackgroundManager instance;
 	
-	private Drawable wallpaper;
+	private Background background;
 
 	private Context context;
 	
@@ -26,16 +29,34 @@ public class BackgroundManager {
 		return instance;
 	}
 	
-	public Drawable getWallpaper() {
-		if(wallpaper == null) {
-			Log.d("profile", "getting wallpaper");
+	public Background getBackground() {
+		if(background == null) {
 			loadWallpaper();
 		}
-		return wallpaper;
+		return background;
 	}
 	
     public void loadWallpaper() {
-    	wallpaper = WallpaperManager.getInstance(context).getDrawable();
+    	Drawable wallpaper = WallpaperManager.getInstance(context).getDrawable();
+		background = new Background(wallpaper);
+    	background.height = wallpaper.getIntrinsicHeight();
+		background.width = wallpaper.getIntrinsicWidth();
+
+		int screenHeight = DimensionUtils.getHeightPixels(context);
+		int screenWidth = DimensionUtils.getWidthPixels(context);
+		background.zoomLevel = ((float) background.height) / screenHeight; // we are always in 'fitY' mode
+
+		int sampleSize = Math.round(background.zoomLevel);
+
+		if (sampleSize > 1) {
+			background.height = background.height / sampleSize;
+			background.width = background.width / sampleSize;
+			background.zoomLevel = ((float) background.height) / screenHeight;
+		}
+
+		background.overlapLevel = background.zoomLevel * Math.min(Math.max(background.width / background.zoomLevel - screenWidth, 0)
+						/ (ApplicationLayoutUtils.getNumPages(context) - 1),
+						screenWidth / 2); // how many pixels to shift for each panel
     }
     
 }

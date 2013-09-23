@@ -27,7 +27,7 @@ public class ParallaxAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public int getCount() {
-		return applicationManager.getApplications().size() / (5 * ApplicationLayoutUtils.getNumRows(context));
+		return ApplicationLayoutUtils.getNumPages(context);
 	}
 
 }

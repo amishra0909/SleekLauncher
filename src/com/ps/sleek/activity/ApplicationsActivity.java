@@ -17,12 +17,9 @@
 package com.ps.sleek.activity;
 
 import android.app.Activity;
-import android.app.WallpaperManager;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Window;
 
 import com.ps.sleek.R;
@@ -31,7 +28,6 @@ import com.ps.sleek.broadcastreceivers.ApplicationReceiver;
 import com.ps.sleek.broadcastreceivers.WallpaperReceiver;
 import com.ps.sleek.broadcastreceivers.WallpaperReceiver.OnWallpaperChangedListener;
 import com.ps.sleek.manager.ApplicationManager;
-import com.ps.sleek.utils.DimensionUtils;
 import com.ps.sleek.view.ViewPagerParallax;
 
 public class ApplicationsActivity extends FragmentActivity implements OnWallpaperChangedListener {
@@ -76,6 +72,7 @@ public class ApplicationsActivity extends FragmentActivity implements OnWallpape
 
 	public static void start(Activity activity) {
 		activity.startActivity(new Intent(activity, ApplicationsActivity.class));
+		activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
 
 	@Override

@@ -1,9 +1,10 @@
 package com.ps.sleek;
 
+import android.app.Application;
+import android.os.AsyncTask;
+
 import com.ps.sleek.manager.ApplicationManager;
 import com.ps.sleek.manager.BackgroundManager;
-
-import android.app.Application;
 
 public class SleekLauncher extends Application {
 	
@@ -11,8 +12,20 @@ public class SleekLauncher extends Application {
 	public void onCreate() {
 		super.onCreate();
 		
-		ApplicationManager.getInstance(getApplicationContext()).loadApplications();
-		BackgroundManager.getInstance(getApplicationContext()).loadWallpaper();
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				ApplicationManager.getInstance(getApplicationContext()).loadApplications();
+				return null;
+			}
+		};
+		
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				BackgroundManager.getInstance(getApplicationContext()).loadWallpaper();
+				return null;
+			}
+		};
 	}
-
 }

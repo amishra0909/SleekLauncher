@@ -1,5 +1,7 @@
 package com.ps.sleek.utils;
 
+import com.ps.sleek.manager.ApplicationManager;
+
 import android.content.Context;
 
 
@@ -20,6 +22,10 @@ public class ApplicationLayoutUtils {
 	
 	public static int getNumRows(Context context) {
 		return DimensionUtils.getHeightPixels(context) / getRowPixels(context);
+	}
+	
+	public static int getNumPages(Context context) {
+		return ApplicationManager.getInstance(context).getApplications().size() / (NUM_COLUMNS * getNumRows(context));
 	}
 	
 	public static int getVerticalSpacing(Context context) {

@@ -4,13 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 
 import com.ps.sleek.manager.BackgroundManager;
 
-/**
- * Receives intents from other applications to change the wallpaper.
- */
 public class WallpaperReceiver extends BroadcastReceiver {
 
 	@Override
