@@ -28,13 +28,16 @@ import android.view.Window;
 import com.ps.sleek.R;
 import com.ps.sleek.adapter.ParallaxAdapter;
 import com.ps.sleek.broadcastreceivers.ApplicationReceiver;
+import com.ps.sleek.broadcastreceivers.WallpaperReceiver;
+import com.ps.sleek.broadcastreceivers.WallpaperReceiver.OnWallpaperChangedListener;
 import com.ps.sleek.manager.ApplicationManager;
 import com.ps.sleek.utils.DimensionUtils;
 import com.ps.sleek.view.ViewPagerParallax;
 
-public class ApplicationsActivity extends FragmentActivity {
+public class ApplicationsActivity extends FragmentActivity implements OnWallpaperChangedListener {
 
 	private final ApplicationReceiver mApplicationsReceiver = new ApplicationReceiver();
+	private final WallpaperReceiver wallpaperReceiver = new WallpaperReceiver();
 	
 	private ViewPagerParallax viewPager;
 
@@ -62,14 +65,22 @@ public class ApplicationsActivity extends FragmentActivity {
 		ApplicationManager.getInstance(this).teardown();
 
 		unregisterReceiver(mApplicationsReceiver);
+		unregisterReceiver(wallpaperReceiver);
 	}
 
 	private void registerIntentReceivers() {
 		mApplicationsReceiver.register(this);
+		wallpaperReceiver.register(this);
+		wallpaperReceiver.setOnWallpaperChangedListener(this);
 	}
 
 	public static void start(Activity activity) {
 		activity.startActivity(new Intent(activity, ApplicationsActivity.class));
+	}
+
+	@Override
+	public void onWallpaperChanged() {
+		viewPager.loadWallpaper();
 	}
 	
 }

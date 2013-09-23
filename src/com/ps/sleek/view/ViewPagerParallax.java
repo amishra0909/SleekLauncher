@@ -1,7 +1,6 @@
 package com.ps.sleek.view;
 
 import android.annotation.SuppressLint;
-import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -14,7 +13,8 @@ import android.os.Debug;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
+
+import com.ps.sleek.manager.BackgroundManager;
 
 public class ViewPagerParallax extends ViewPager {
     private int saved_width = -1;
@@ -28,28 +28,35 @@ public class ViewPagerParallax extends ViewPager {
     private float overlap_level;
     private Rect src = new Rect(), dst = new Rect();
 
-    private boolean pagingEnabled = true;
-    private boolean parallaxEnabled = true;
-
     private boolean loggable = true;
 	private Drawable wallpaper;
 	private Drawable savedWallpaper;
 	private Bitmap saved_bitmap;
+	private Context context;
     private final static String TAG = "ViewPagerParallax";
 
     public ViewPagerParallax(Context context) {
         super(context);
-        init(context);
+        this.context = context;
+        loadWallpaper();
     }
 
 	public ViewPagerParallax(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        this.context = context;
+        loadWallpaper();
     }
 	
-	private void init(Context context) {
-		wallpaper = WallpaperManager.getInstance(context).getDrawable();
+	public void loadWallpaper() {
+		long start = System.currentTimeMillis();
+		wallpaper = BackgroundManager.getInstance(context).getWallpaper();
+		long end = System.currentTimeMillis();
+		Log.d("profile", "get Wallpaper:" + (end - start));
+		
+		start = System.currentTimeMillis();
 		set_new_background();
+		end = System.currentTimeMillis();
+		Log.d("profile", "set Wallpaper:" + (end - start));
 	}
 
     @SuppressLint("NewApi")
@@ -127,7 +134,7 @@ public class ViewPagerParallax extends ViewPager {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (!insufficientMemory && parallaxEnabled) {
+        if (!insufficientMemory) {
             if (current_position == -1)
                 current_position=getCurrentItem();
             // maybe we could get the current position from the getScrollX instead?
@@ -162,7 +169,7 @@ public class ViewPagerParallax extends ViewPager {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (!insufficientMemory && parallaxEnabled)
+        if (!insufficientMemory)
             set_new_background();
     }
 
@@ -172,52 +179,12 @@ public class ViewPagerParallax extends ViewPager {
         current_position = item;
     }
 
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (this.pagingEnabled) {
-            return super.onTouchEvent(event);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (this.pagingEnabled) {
-            return super.onInterceptTouchEvent(event);
-        }
-        return false;
-    }
-
-    public boolean isPagingEnabled() {
-        return pagingEnabled;
-    }
-
-    /**
-     * Enables or disables paging for this ViewPagerParallax.
-     * @param parallaxEnabled
-     */
-    public void setPagingEnabled(boolean pagingEnabled) {
-        this.pagingEnabled = pagingEnabled;
-    }
-
-    public boolean isParallaxEnabled() {
-        return parallaxEnabled;
-    }
-
-    /**
-     * Enables or disables parallax effect for this ViewPagerParallax.
-     * @param parallaxEnabled
-     */
-    public void setParallaxEnabled(boolean parallaxEnabled) {
-        this.parallaxEnabled = parallaxEnabled;
-    }
-
     protected void onDetachedFromWindow() {
         if (saved_bitmap != null) {
             saved_bitmap.recycle();
             saved_bitmap = null;
+            wallpaper = null;
+            savedWallpaper = null;
         }
         super.onDetachedFromWindow();
     }

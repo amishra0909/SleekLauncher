@@ -25,7 +25,7 @@ public class ApplicationManager {
 	private ApplicationManager() {}
 	
 	private ApplicationManager(Context context) {
-		this.context = context.getApplicationContext();
+		this.context = context;
 		applications = new ArrayList<Application>();
 	}
 	
@@ -47,7 +47,6 @@ public class ApplicationManager {
 		if(applications.isEmpty()) {
 			loadApplications();
 		}
-		Log.d("ps", "applications:" + applications.size());
 		return applications;
 	}
 	
